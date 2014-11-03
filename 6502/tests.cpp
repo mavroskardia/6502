@@ -181,18 +181,18 @@ void do_absolute_tests() {
 
 namespace abso {
 
-	void test_eor(Instruction& and, CPU& cpu, Memory& mem) {
+	void test_eor(Instruction& eor, CPU& cpu, Memory& mem) {
 
 	}
 
-	void test_and(Instruction& and, CPU& cpu, Memory& mem) {
+	void test_and(Instruction& _and, CPU& cpu, Memory& mem) {
 		// AND value point to in memory with the accumulator
 		cpu.pc = 0x33;
 		cpu.acc = 0xcc; // 11001100
 		mem[cpu.pc + 1] = 0x22;
 		mem[cpu.pc + 2] = 0x44;
 		mem[0x4422] = 0xaa; // 10101010
-		and(cpu, mem);
+		_and(cpu, mem);
 		// result should be 10001000 (0x88)
 		assert(cpu.acc == 0x88);
 		assert(cpu.p_n());

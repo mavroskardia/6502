@@ -7,7 +7,7 @@ class UnknownInstruction : public std::exception
 {
 public:
 	UnknownInstruction(std::string instruction) : instruction(instruction) {}
-	const char* what() const { return instruction.c_str(); }
+	const char* what() const noexcept { return instruction.c_str(); }
 private:
 	std::string instruction;
 };
@@ -15,7 +15,7 @@ private:
 class GeneralException : public std::exception {
 public:
 	GeneralException(std::string message) : message(message) {};
-	const char* what() const { return message.c_str(); }
+	const char* what() const noexcept { return message.c_str(); }
 protected:
 	std::string message;
 };

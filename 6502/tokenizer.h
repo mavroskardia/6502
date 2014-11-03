@@ -28,8 +28,8 @@ public:
 protected:
 private:
 	vector<string> split(string& line, char delim);
-	unsigned char translate_hex(string& hexstr);
-
+	uint8_t translate_hex(string& hexstr);
+	
 	vector<string> implied, relative;
 	vector<string>::iterator implied_b, implied_e, relative_b, relative_e;
 
