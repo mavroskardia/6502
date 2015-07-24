@@ -38,7 +38,8 @@ TokenResult Tokenizer::tokenize(string& line) {
 		auto pieces = split(line, ' ');
 		tr.instruction = pieces[0];
 		tr.address_mode = Relative;
-		tr.relative_byte = translate_hex(pieces[1].substr(1, string::npos));
+		// tr.relative_byte = translate_hex(pieces[1].substr(1, string::npos));
+		tr.relative_byte = translate_hex(pieces[1]);
 	} else {
 		throw UnknownInstruction("unhandled addressing mode for instruction " + tr.instruction);
 	}
@@ -46,8 +47,8 @@ TokenResult Tokenizer::tokenize(string& line) {
 	return tr;
 }
 
-unsigned char Tokenizer::translate_hex(string& hexstr) {
-	return (unsigned char) strtol(hexstr.c_str(), nullptr, 16);
+uint8_t Tokenizer::translate_hex(string& hexstr) {
+	return (uint8_t) strtol(hexstr.c_str(), nullptr, 16);
 }
 
 vector<string> Tokenizer::split(string& line, char delim) {
