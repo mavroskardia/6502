@@ -111,7 +111,7 @@ bool Executor::load(string filename) {
 }
 
 bool Executor::bootstrap() {	
-	// standard starting excution location is 0x8000:
+	// standard starting execution location is 0x8000:
 	memory.memory[0xfffc] = 0x00;
 	memory.memory[0xfffd] = 0x80;
 	

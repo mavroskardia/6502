@@ -71,6 +71,31 @@ namespace abso {
 	void test_inc(Instruction&, CPU&, Memory&);
 }
 
+namespace abso_x {
+	/*
+	// 0C:
+	void test_ldy(Instruction&, CPU&, Memory&);
+	
+	// 0D:
+	void test_ora(Instruction&, CPU&, Memory&);
+	void test_and(Instruction&, CPU&, Memory&);
+	void test_eor(Instruction&, CPU&, Memory&);
+	void test_adc(Instruction&, CPU&, Memory&);
+	void test_sta(Instruction&, CPU&, Memory&);
+	void test_lda(Instruction&, CPU&, Memory&);
+	void test_cmp(Instruction&, CPU&, Memory&);
+	void test_sbc(Instruction&, CPU&, Memory&);
+	
+	// 0E:
+	void test_asl(Instruction&, CPU&, Memory&);
+	void test_rol(Instruction&, CPU&, Memory&);
+	void test_lsr(Instruction&, CPU&, Memory&);
+	void test_ror(Instruction&, CPU&, Memory&);
+	void test_dec(Instruction&, CPU&, Memory&);
+	void test_inc(Instruction&, CPU&, Memory&);
+	*/
+}
+
 void test_stack();
 void do_memory_tests();
 
@@ -78,14 +103,41 @@ void do_implied_tests();
 void do_relative_tests();
 void do_absolute_tests();
 
+//void do_absolute_x_tests();
+//void do_absolute_y_tests();
+//
+//void do_immediate_tests();
+//void do_indirect_tests();
+//void do_x_indirect_tests();
+//void do_y_indirect_tests();
+//
+//void do_zero_page_tests();
+//void do_zero_page_x_tests();
+//void do_zero_page_y_tests();
+
 void do_full_program_tests();
 
 int do_tests() {
 	do_memory_tests();
-	do_implied_tests();
-	do_relative_tests();
-	do_absolute_tests();
 
+	do_implied_tests();
+
+	do_relative_tests();
+
+	// TODO:
+	do_absolute_tests();
+	/*do_absolute_x_tests();
+	do_absolute_y_tests();
+
+	do_immediate_tests();
+	do_indirect_tests();
+	do_x_indirect_tests();
+	do_y_indirect_tests();
+	
+	do_zero_page_tests();
+	do_zero_page_x_tests();
+	do_zero_page_y_tests();*/
+	
 	//do_full_program_tests();
 
 	return 0;
@@ -111,6 +163,7 @@ void test_stack() {
 	assert(m[0x1ff - 0xa0] == 0xb1);
 }
 
+// DONE
 void do_implied_tests() {
 	Executor e;
 	CPU cpu;
@@ -145,6 +198,7 @@ void do_implied_tests() {
 	impl::test_sed(*e.instruction(0xf8), cpu, mem);
 }
 
+// DONE
 void do_relative_tests() {
 	Executor e;
 	CPU cpu;
@@ -160,13 +214,16 @@ void do_relative_tests() {
 	rel::test_beq(*e.instruction(0xf0), cpu, mem);
 }
 
+
 void do_absolute_tests() {
 	Executor e;
 	CPU cpu;
 	Memory mem;
 
+	// 00	
 	abso::test_jsr(*e.instruction(0x20), cpu, mem);
-	
+
+	// 0C
 	abso::test_bit(*e.instruction(0x2c), cpu, mem);
 	abso::test_jmp(*e.instruction(0x4c), cpu, mem);
 	abso::test_sty(*e.instruction(0x8c), cpu, mem);
@@ -174,19 +231,99 @@ void do_absolute_tests() {
 	abso::test_cpy(*e.instruction(0xcc), cpu, mem);
 	abso::test_cpx(*e.instruction(0xec), cpu, mem);
 
+	// 0D
 	abso::test_ora(*e.instruction(0x0d), cpu, mem);
 	abso::test_and(*e.instruction(0x2d), cpu, mem);
-	abso::test_eor(*e.instruction(0x4d), cpu, mem);
+	// PICK UP HERE
+	abso::test_eor(*e.instruction(0x4d), cpu, mem);	
+	/*abso::test_adc(*e.instruction(0x6d), cpu, mem);
+	abso::test_sta(*e.instruction(0x8d), cpu, mem);
+	abso::test_lda(*e.instruction(0xad), cpu, mem);
+	abso::test_cmp(*e.instruction(0xcd), cpu, mem);
+	abso::test_sbc(*e.instruction(0xed), cpu, mem);
+
+	// 0E
+	abso::test_asl(*e.instruction(0x0e), cpu, mem);
+	abso::test_rol(*e.instruction(0x2e), cpu, mem);
+	abso::test_lsr(*e.instruction(0x4e), cpu, mem);
+	abso::test_ror(*e.instruction(0x6e), cpu, mem);
+	abso::test_stx(*e.instruction(0x8e), cpu, mem);
+	abso::test_ldx(*e.instruction(0xae), cpu, mem);
+	abso::test_dec(*e.instruction(0xce), cpu, mem);
+	abso::test_inc(*e.instruction(0xee), cpu, mem);*/
+}
+
+void do_absolute_x_tests() {
+	Executor e;
+	CPU cpu;
+	Memory mem;
+	/*
+	// 0C
+	abso_x::test_ldy(*e.instruction(0xbc), cpu, mem);
+		
+	// 0D:
+	abso_x::test_ora(*e.instruction(0xbc), cpu, mem);
+	abso_x::test_and(*e.instruction(0xbc), cpu, mem);
+	abso_x::test_eor(*e.instruction(0xbc), cpu, mem);
+	abso_x::test_adc(*e.instruction(0xbc), cpu, mem);
+	abso_x::test_sta(*e.instruction(0xbc), cpu, mem);
+	abso_x::test_lda(*e.instruction(0xbc), cpu, mem);
+	abso_x::test_cmp(*e.instruction(0xbc), cpu, mem);
+	abso_x::test_sbc(*e.instruction(0xbc), cpu, mem);
+		
+	// 0E:
+	abso_x::test_asl(*e.instruction(0xbc), cpu, mem);
+	abso_x::test_rol(*e.instruction(0xbc), cpu, mem);
+	abso_x::test_lsr(*e.instruction(0xbc), cpu, mem);
+	abso_x::test_ror(*e.instruction(0xbc), cpu, mem);
+	abso_x::test_dec(*e.instruction(0xbc), cpu, mem);
+	abso_x::test_inc(*e.instruction(0xbc), cpu, mem);*/
+}
+
+namespace abso_x {	
 }
 
 namespace abso {
 
-	void test_eor(Instruction& and, CPU& cpu, Memory& mem) {
+	void test_eor(Instruction& eor, CPU& cpu, Memory& mem) {
+		// exclusive or with accumulator (A = A ^ M)
 
+		// non-zero, non-negative
+		cpu.pc = 0x33;
+		cpu.acc = 0xb5;			// 10110101
+		mem[cpu.pc + 1] = 0x22;
+		mem[cpu.pc + 2] = 0x44;
+		mem[0x4422] = 0x88;		// 10001000
+		eor(cpu, mem);
+		assert(cpu.acc == 0x3d);// 00111101
+		assert(!cpu.p_n());
+		assert(!cpu.p_z());
+
+		// non-zero, negative
+		cpu.pc = 0x33;
+		cpu.acc = 0xb5;			// 10110101
+		mem[cpu.pc + 1] = 0x22;
+		mem[cpu.pc + 2] = 0x44;
+		mem[0x4422] = 0x68;		// 01101000
+		eor(cpu, mem);
+		assert(cpu.acc == 0xdd);// 11011101
+		assert(cpu.p_n());
+		assert(!cpu.p_z());
+
+		// zero, non-negative
+		cpu.pc = 0x33;
+		cpu.acc = 0xb5;			// 10110101
+		mem[cpu.pc + 1] = 0x22;
+		mem[cpu.pc + 2] = 0x44;
+		mem[0x4422] = 0x68;		// 01101000
+		eor(cpu, mem);
+		assert(cpu.acc == 0xdd);// 11011101
+		assert(cpu.p_n());
+		assert(!cpu.p_z());
 	}
 
 	void test_and(Instruction& and, CPU& cpu, Memory& mem) {
-		// AND value point to in memory with the accumulator
+		// AND value pointed to in memory with the accumulator
 		cpu.pc = 0x33;
 		cpu.acc = 0xcc; // 11001100
 		mem[cpu.pc + 1] = 0x22;
