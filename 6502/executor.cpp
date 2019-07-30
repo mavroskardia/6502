@@ -1,60 +1,6 @@
 #include "includes.h"
 
 Executor::Executor() {
-	// 0x*1 implied
-	instructions[0x60] = new Impl::BRK();
-	instructions[0x40] = new Impl::RTI();
-	instructions[0x60] = new Impl::RTS();
-
-	// 0x*a implied
-	instructions[0x8a] = new Impl::TXA();
-	instructions[0x9a] = new Impl::TXS();
-	instructions[0xaa] = new Impl::TAX();
-	instructions[0xba] = new Impl::TSX();
-	instructions[0xca] = new Impl::DEX();
-	instructions[0xea] = new Impl::NOP();
-
-	// 0x*8 implied
-	instructions[0x08] = new Impl::PHP();
-	instructions[0x18] = new Impl::CLC();
-	instructions[0x28] = new Impl::PLP();
-	instructions[0x38] = new Impl::SEC();
-	instructions[0x48] = new Impl::PHA();
-	instructions[0x58] = new Impl::CLI();
-	instructions[0x68] = new Impl::PLA();
-	instructions[0x78] = new Impl::SEI();
-	instructions[0x88] = new Impl::DEY();
-	instructions[0x98] = new Impl::TYA();
-	instructions[0xa8] = new Impl::TAY();
-	instructions[0xb8] = new Impl::CLV();
-	instructions[0xc8] = new Impl::INY();
-	instructions[0xd8] = new Impl::CLD();
-	instructions[0xe8] = new Impl::INX();
-	instructions[0xf8] = new Impl::SED();	
-
-	// relative
-	instructions[0x10] = new Rel::BPL();
-	instructions[0x30] = new Rel::BMI();
-	instructions[0x50] = new Rel::BVC();
-	instructions[0x70] = new Rel::BVS();
-	instructions[0x90] = new Rel::BCC();
-	instructions[0xb0] = new Rel::BCS();
-	instructions[0xd0] = new Rel::BNE();
-	instructions[0xf0] = new Rel::BEQ();
-
-	// absolute 
-	instructions[0x20] = new Absolute::JSR();
-
-	instructions[0x2c] = new Absolute::BIT();
-	instructions[0x4c] = new Absolute::JMP();
-	instructions[0x8c] = new Absolute::STY();
-	instructions[0xac] = new Absolute::LDY();
-	instructions[0xcc] = new Absolute::CPY();
-	instructions[0xec] = new Absolute::CPX();
-
-	instructions[0x0d] = new Absolute::ORA();	
-	instructions[0x2d] = new Absolute::AND();
-	instructions[0x4d] = new Absolute::EOR();
 
 	/*
 	instructions[0x6d] = new Absolute::ADC();
@@ -81,7 +27,7 @@ Executor::Executor() {
 
 }
 
-Instruction* Executor::instruction(const uint8_t opcode) {
+Instruction* Executor::instruction(uint8_t opcode) {
 	return instructions[opcode];
 }
 

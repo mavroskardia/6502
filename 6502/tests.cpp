@@ -322,14 +322,14 @@ namespace abso {
 		assert(!cpu.p_z());
 	}
 
-	void test_and(Instruction& and, CPU& cpu, Memory& mem) {
+	void test_and(Instruction& _and, CPU& cpu, Memory& mem) {
 		// AND value pointed to in memory with the accumulator
 		cpu.pc = 0x33;
 		cpu.acc = 0xcc; // 11001100
 		mem[cpu.pc + 1] = 0x22;
 		mem[cpu.pc + 2] = 0x44;
 		mem[0x4422] = 0xaa; // 10101010
-		and(cpu, mem);
+		_and(cpu, mem);
 		// result should be 10001000 (0x88)
 		assert(cpu.acc == 0x88);
 		assert(cpu.p_n());
@@ -619,12 +619,19 @@ namespace impl {
 	}
 
 	void test_rts(Instruction& rts, CPU& cpu, Memory& mem) {
-		// TODO: i feel like this isn't working right...
-		mem[0x1ff] = 0x30; // lo
-		mem[0x1fe] = 0x40; // hi (maybe backwards?)
-		cpu.sp = 2;
+		// RTS returns from subroutine
+		// Grabs the two bytes off the stack as the return address
+		// then sets the PC to that address + 1
+		cpu.sp = 0;
 		cpu.pc = 0x0000;
+		
+		mem.push_stack(cpu.sp, 0x30);
+		mem.push_stack(cpu.sp, 0x40);
+		
+		dbgout("about to call RTS" << std::endl);
 		rts(cpu, mem);
+		dbgout("finished calling RTS. PC: " << cpu.pc);
+
 		assert(cpu.pc == 0x4031);
 		assert(cpu.sp == 0);
 	}

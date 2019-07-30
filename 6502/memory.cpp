@@ -19,10 +19,12 @@ uint8_t& Memory::operator[] (const int index) {
 
 bool Memory::push_stack(uint8_t& sp, uint8_t value) {
 	memory[0x1ff - sp++] = value;
+	dbgout("Added " << std::to_string(value) << " to the stack with SP: " << std::to_string(sp) << std::endl);
 	return true;
 }
 
 uint8_t Memory::pop_stack(uint8_t& sp) {
 	uint8_t val = memory[0x1ff - --sp];
+	dbgout("Popped value " << std::to_string(val) << " off stack at SP: " << std::to_string(sp) << std::endl);
 	return val;
 }

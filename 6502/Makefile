@@ -1,5 +1,5 @@
 CXX=gcc
-CXXFLAGS=-g -std=c++11 -Wall -pedantic
+CXXFLAGS=-g -std=c++11 -Wall -pedantic -D_DEBUG
 BIN=6502
 LIBS=-lstdc++
 
