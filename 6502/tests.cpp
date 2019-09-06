@@ -2,6 +2,12 @@
 
 string make_string(vector<unsigned char>&);
 
+// there are 150 opcode variations to implement,
+// some opcodes have implied, absolute, indirect,
+// immediate, and relative modes that I put into
+// different namespaces
+
+// 25 total implied opcodes - DONE
 namespace impl {
 	void test_brk(Instruction&, CPU&, Memory&);
 	void test_rti(Instruction&, CPU&, Memory&);
@@ -22,7 +28,6 @@ namespace impl {
 	void test_cld(Instruction&, CPU&, Memory&);
 	void test_inx(Instruction&, CPU&, Memory&);
 	void test_sed(Instruction&, CPU&, Memory&);
-
 	void test_txa(Instruction&, CPU&, Memory&);
 	void test_txs(Instruction&, CPU&, Memory&);
 	void test_tax(Instruction&, CPU&, Memory&);
@@ -31,6 +36,7 @@ namespace impl {
 	void test_nop(Instruction&, CPU&, Memory&);
 }
 
+// 8 total relative opcodes - DONE
 namespace rel {
 	void test_bpl(Instruction&, CPU&, Memory&);
 	void test_bmi(Instruction&, CPU&, Memory&);
@@ -42,9 +48,13 @@ namespace rel {
 	void test_beq(Instruction&, CPU&, Memory&);
 }
 
+// 23 total absolute opcodes - WIP
 namespace abso {
+
+	// 00 LO (1)
 	void test_jsr(Instruction&, CPU&, Memory&);
 
+	// 0C LO (6)
 	void test_bit(Instruction&, CPU&, Memory&);
 	void test_jmp(Instruction&, CPU&, Memory&);
 	void test_sty(Instruction&, CPU&, Memory&);
@@ -52,6 +62,7 @@ namespace abso {
 	void test_cpy(Instruction&, CPU&, Memory&);
 	void test_cpx(Instruction&, CPU&, Memory&);
 
+	// 0D LO (8)
 	void test_ora(Instruction&, CPU&, Memory&);
 	void test_and(Instruction&, CPU&, Memory&);
 	void test_eor(Instruction&, CPU&, Memory&);
@@ -61,6 +72,7 @@ namespace abso {
 	void test_cmp(Instruction&, CPU&, Memory&);
 	void test_sbc(Instruction&, CPU&, Memory&);
 
+	// OE LO (8)
 	void test_asl(Instruction&, CPU&, Memory&);
 	void test_rol(Instruction&, CPU&, Memory&);
 	void test_lsr(Instruction&, CPU&, Memory&);
@@ -234,10 +246,10 @@ void do_absolute_tests() {
 	// 0D
 	abso::test_ora(*e.instruction(0x0d), cpu, mem);
 	abso::test_and(*e.instruction(0x2d), cpu, mem);
-	// PICK UP HERE
 	abso::test_eor(*e.instruction(0x4d), cpu, mem);	
-	/*abso::test_adc(*e.instruction(0x6d), cpu, mem);
-	abso::test_sta(*e.instruction(0x8d), cpu, mem);
+	// PICK UP HERE
+	abso::test_adc(*e.instruction(0x6d), cpu, mem);
+	/*abso::test_sta(*e.instruction(0x8d), cpu, mem);
 	abso::test_lda(*e.instruction(0xad), cpu, mem);
 	abso::test_cmp(*e.instruction(0xcd), cpu, mem);
 	abso::test_sbc(*e.instruction(0xed), cpu, mem);
@@ -284,6 +296,11 @@ namespace abso_x {
 }
 
 namespace abso {
+
+	void test_adc(Instruction& adc, CPU& cpu, Memory& mem) {
+		// add with carry (A = A + M)
+		
+	}
 
 	void test_eor(Instruction& eor, CPU& cpu, Memory& mem) {
 		// exclusive or with accumulator (A = A ^ M)
